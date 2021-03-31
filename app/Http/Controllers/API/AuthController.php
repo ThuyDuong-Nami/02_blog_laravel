@@ -18,16 +18,16 @@ class AuthController extends Controller
 
     public function index()
     {
-        $user = Auth::guard('api')->user();
+        $user = auth('api')->user();
         return response()->json($user, 200);
     }
 
     public function login(LoginRequest $request)
     {
 
-        $validator = $request->only(['username', 'password']);
+        $validatedData = $request->only(['username', 'password']);
 
-        if ( ! $token = Auth::guard("api")->attempt($validator)) {
+        if ( ! $token = auth('api')->attempt($validatedData)) {
             return response()->json([
                 'error' => 'Unauthorized',
             ], 401);
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::guard('api')->logout();
+        auth('api')->logout();
         return response()->json([
            'message' => 'User logout success!',
         ], 200);
@@ -48,18 +48,15 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => Auth::guard('api')->factory()->getTTL() * 60,
-            'user'         => Auth::guard('api')->user(),
+            'expires_at'   => auth('api')->factory()->getTTL() * 60,
+            'user'         => auth('api')->user(),
         ]);
     }
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create([
-            'username' => $request->input('username'),
-            'email'    => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ]);
+        $validatedData = $request->validated();
+        $user = User::create($validatedData);
         return response()->json([
            'data'    => $user,
            'message' => 'User successfully registered!',
