@@ -20,8 +20,10 @@ use App\Http\Controllers\API;
 //});
 
 Route::group(['middleware' => 'api'], function (){
-   Route::get('/', [API\AuthController::class, 'index']);
-   Route::post('/login', [API\AuthController::class, 'login']);
-   Route::get('/logout', [API\AuthController::class, 'logout']);
-   Route::post('/register', [API\AuthController::class, 'register']);
+    Route::get('/', [API\AuthController::class, 'index']);
+    Route::post('/login', [API\AuthController::class, 'login']);
+    Route::get('/logout', [API\AuthController::class, 'logout']);
+    Route::post('/register', [API\AuthController::class, 'register']);
+    Route::get('/posts', [API\PostController::class, 'index']);
+    Route::post('/posts/store', [API\PostController::class, 'store']);
 });
