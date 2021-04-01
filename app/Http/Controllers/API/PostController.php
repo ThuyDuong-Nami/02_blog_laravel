@@ -19,8 +19,14 @@ class PostController extends Controller
 //        $this->authorize('create', Post::class);
         $validatedData = $request->validated();
         $user = auth('api')->user();
-        $postAdd = Post::create(array_merge($validatedData,
-            ['user_id' => $user->id]));
-        return response()->json($postAdd, 200);
+        if ($user){
+            $postAdd = Post::create(array_merge($validatedData,
+                ['user_id' => $user->id]));
+            return response()->json($postAdd, 200);
+        }else{
+            return response()->json([
+                'error' => 'Unauthorized!',
+            ], 401);
+        }
     }
 }
