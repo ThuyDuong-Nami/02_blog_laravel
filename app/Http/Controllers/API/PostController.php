@@ -40,4 +40,14 @@ class PostController extends Controller
             'message' => 'Update success!',
         ], 200);
     }
+
+    public function destroy($id)
+    {
+        $post = Post::where('id',$id)->first();
+        $this->authorize('delete', $post);
+        $post->delete();
+        return response()->json([
+            'message' => 'Delete success!',
+        ], 200);
+    }
 }
