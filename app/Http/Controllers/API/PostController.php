@@ -16,12 +16,11 @@ class PostController extends Controller
 
     public function store(PostRequest $request, Post $post)
     {
-        $this->authorize('create', Post::class);
+//        $this->authorize('create', Post::class);
+        $validatedData = $request->validated();
         $user = auth('api')->user();
-        $postAdd = Post::create([
-            $request->validated(),
-            'user_id' => $user->id,
-        ]);
+        $postAdd = Post::create(array_merge($validatedData,
+            ['user_id' => $user->id]));
         return response()->json($postAdd, 200);
     }
 }
