@@ -8,6 +8,10 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function index()
     {
         $post = Post::all();
@@ -16,17 +20,11 @@ class PostController extends Controller
 
     public function store(PostRequest $request, Post $post)
     {
-//        $this->authorize('create', Post::class);
+        $this->authorize('create', Post::class);
         $validatedData = $request->validated();
         $user = auth('api')->user();
-        if ($user){
-            $postAdd = Post::create(array_merge($validatedData,
-                ['user_id' => $user->id]));
-            return response()->json($postAdd, 200);
-        }else{
-            return response()->json([
-                'error' => 'Unauthorized!',
-            ], 401);
-        }
+        $postAdd = Post::create(array_merge($validatedData,
+            ['user_id' => $user->id]));
+        return response()->json($postAdd, 200);
     }
 }
