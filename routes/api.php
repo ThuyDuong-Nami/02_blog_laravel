@@ -29,3 +29,5 @@ Route::group(['middleware' => 'api'], function (){
     Route::put('/posts/update/{id}', [API\PostController::class, 'update']);
     Route::delete('/posts/delete/{id}', [API\PostController::class, 'destroy']);
 });
+
+Route::apiResource('post', API\PostResourceController::class);
