@@ -18,13 +18,13 @@ class PostController extends Controller
         return response()->json($post, 200);
     }
 
-    public function store(PostRequest $request, Post $post)
+    public function store(PostRequest $request)
     {
         $this->authorize('create', Post::class);
         $validatedData = $request->validated();
         $user = auth('api')->user();
-        $postAdd = Post::create(array_merge($validatedData,
-            ['user_id' => $user->id]));
+        $postArr = array_merge($validatedData, ['user_id' => $user->id]);
+        $postAdd = Post::create($postArr);
         return response()->json($postAdd, 200);
     }
 }
