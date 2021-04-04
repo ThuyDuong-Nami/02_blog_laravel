@@ -24,10 +24,10 @@ Route::group(['middleware' => 'api'], function (){
     Route::post('/login', [API\AuthController::class, 'login']);
     Route::get('/logout', [API\AuthController::class, 'logout']);
     Route::post('/register', [API\AuthController::class, 'register']);
-    Route::get('/posts', [API\PostController::class, 'index']);
-    Route::post('/posts/store', [API\PostController::class, 'store']);
-    Route::put('/posts/update/{id}', [API\PostController::class, 'update']);
-    Route::delete('/posts/delete/{id}', [API\PostController::class, 'destroy']);
+//    Route::get('/posts', [API\PostController::class, 'index']);
+//    Route::post('/posts/store', [API\PostController::class, 'store']);
+//    Route::put('/posts/update/{id}', [API\PostController::class, 'update']);
+//    Route::delete('/posts/delete/{id}', [API\PostController::class, 'destroy']);
 });
 
 Route::apiResource('post', API\PostResourceController::class);
