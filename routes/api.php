@@ -26,4 +26,5 @@ Route::group(['middleware' => 'api'], function (){
     Route::post('/register', [API\AuthController::class, 'register']);
     Route::get('/posts', [API\PostController::class, 'index']);
     Route::post('/posts/store', [API\PostController::class, 'store']);
+    Route::put('/posts/update/{id}', [API\PostController::class, 'update']);
 });

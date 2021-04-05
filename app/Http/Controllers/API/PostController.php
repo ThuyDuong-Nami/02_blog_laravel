@@ -27,4 +27,16 @@ class PostController extends Controller
         $postAdd = Post::create($postArr);
         return response()->json($postAdd, 200);
     }
+
+    public function update(PostRequest $request, $id)
+    {
+        $post = Post::where('id',$id)->first();
+        $this->authorize('update', $post);
+        $validatedData = $request->validated();
+        $post->update($validatedData);
+        return response()->json([
+            'data' => $post,
+            'message' => 'Update success!',
+        ], 200);
+    }
 }
