@@ -13,4 +13,10 @@ class Post extends Model
         'name',
         'content',
     ];
+    protected $perPage = 15;
+
+    public function setPerPage($perPage)
+    {
+        $this->perPage = $perPage;
+    }
 }
