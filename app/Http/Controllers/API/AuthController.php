@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,11 @@ class AuthController extends Controller
     public function index()
     {
         $user = auth('api')->user();
-        return response()->json($user, 200);
+        $userPost = User::find($user->id)->post;
+        return response()->json([
+            $user,
+            'posts' => $userPost,
+        ], 200);
     }
 
     public function login(LoginRequest $request)
