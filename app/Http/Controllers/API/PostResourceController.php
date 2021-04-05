@@ -45,9 +45,8 @@ class PostResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($post)
     {
-        $post = Post::where('id',$id)->first();
         return response()->json([
             'data' => $post,
         ], 200);
@@ -60,9 +59,8 @@ class PostResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, $id)
+    public function update(PostRequest $request, $post)
     {
-        $post = Post::where('id',$id)->first();
         $this->authorize('update', $post);
         $validatedData = $request->validated();
         $post->update($validatedData);
@@ -78,9 +76,8 @@ class PostResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($post)
     {
-        $post = Post::where('id',$id)->first();
         $this->authorize('delete', $post);
         $post->delete();
         return response()->json([
