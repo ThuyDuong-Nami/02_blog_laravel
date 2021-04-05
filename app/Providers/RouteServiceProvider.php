@@ -49,7 +49,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        Route::model('post', Post::class);
+//        Route::model('post', Post::class);
     }
 
     /**

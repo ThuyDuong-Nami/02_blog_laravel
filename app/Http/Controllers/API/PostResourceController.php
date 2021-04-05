@@ -11,6 +11,7 @@ class PostResourceController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->authorizeResource(Post::class, 'post');
     }
     /**
      * Display a listing of the resource.
@@ -31,7 +32,6 @@ class PostResourceController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $this->authorize('create', Post::class);
         $validatedData = $request->validated();
         $user = auth('api')->user();
         $postArr = array_merge($validatedData, ['user_id' => $user->id]);
@@ -42,10 +42,10 @@ class PostResourceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Post $post
      * @return \Illuminate\Http\Response
      */
-    public function show($post)
+    public function show(Post $post)
     {
         return response()->json([
             'data' => $post,
@@ -59,9 +59,8 @@ class PostResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, $post)
+    public function update(PostRequest $request,Post $post)
     {
-        $this->authorize('update', $post);
         $validatedData = $request->validated();
         $post->update($validatedData);
         return response()->json([
@@ -76,9 +75,8 @@ class PostResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($post)
+    public function destroy(Post $post)
     {
-        $this->authorize('delete', $post);
         $post->delete();
         return response()->json([
             'message' => 'Delete success!',
