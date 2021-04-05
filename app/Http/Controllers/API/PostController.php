@@ -12,7 +12,6 @@ class PostController extends Controller
     {
         $this->middleware('auth:api');
     }
-
     public function index()
     {
         $post = Post::all();
@@ -24,8 +23,8 @@ class PostController extends Controller
         $this->authorize('create', Post::class);
         $validatedData = $request->validated();
         $user = auth('api')->user();
-        $postAdd = Post::create(array_merge($validatedData,
-            ['user_id' => $user->id]));
+        $postArr = array_merge($validatedData, ['user_id' => $user->id]);
+        $postAdd = Post::create($postArr);
         return response()->json($postAdd, 200);
     }
 
