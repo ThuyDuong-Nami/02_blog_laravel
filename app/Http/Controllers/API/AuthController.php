@@ -20,9 +20,9 @@ class AuthController extends Controller
     public function index()
     {
         $user = auth('api')->user();
-        $userPost = User::find($user->id)->post;
+        $userPost = User::find($user->id)->posts;
         return response()->json([
-            $user,
+            'data' => $user,
             'posts' => $userPost,
         ], 200);
     }

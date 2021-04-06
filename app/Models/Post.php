@@ -25,4 +25,9 @@ class Post extends Model
     {
         $this->perPage = $perPage;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

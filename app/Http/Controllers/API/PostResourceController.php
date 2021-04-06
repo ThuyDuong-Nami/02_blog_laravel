@@ -21,10 +21,9 @@ class PostResourceController extends Controller
      */
     public function index(Request $request)
     {
-//        $post = Post::all();
         $perPage = $request->input('perPage');
-        $post = Post::paginate($perPage);
-        return response()->json($post, 200);
+        $posts = Post::with('user')->paginate($perPage);
+        return response()->json($posts, 200);
     }
 
     /**
@@ -50,8 +49,10 @@ class PostResourceController extends Controller
      */
     public function show(Post $post)
     {
+        $postUser = Post::find($post->id)->user;
         return response()->json([
             'data' => $post,
+            'user' => $postUser,
         ], 200);
     }
 
