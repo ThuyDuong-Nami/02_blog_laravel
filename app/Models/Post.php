@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use League\Flysystem\Config;
 
 class Post extends Model
 {
@@ -13,4 +14,20 @@ class Post extends Model
         'name',
         'content',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->perPage = config('blog.perPage');
+    }
+
+    public function setPerPage($perPage)
+    {
+        $this->perPage = $perPage;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
