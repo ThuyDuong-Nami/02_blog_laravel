@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Models\Post;
+use App\Models\User;
 use Flugg\Responder\Transformers\Transformer;
 
-class PostTransformer extends Transformer
+class UserTransformer extends Transformer
 {
     /**
      * List of available relations.
@@ -24,16 +24,15 @@ class PostTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param  \App\Models\Post $post
+     * @param  \App\Models\User $user
      * @return array
      */
-    public function transform(Post $post)
+    public function transform(User $user)
     {
         return [
-            'id' => (int) $post->id,
-            'name' => (string) $post->name,
-            'content' => (string) $post->content,
-            'user' => transformation($post->user)->transform(),
+            'id' => (int) $user->id,
+            'username' => (string) $user->username,
+            'email' => (string) $user->email,
         ];
     }
 }
