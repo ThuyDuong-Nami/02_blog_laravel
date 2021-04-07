@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Post;
 use App\Models\User;
+use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,11 +21,7 @@ class AuthController extends Controller
     public function index()
     {
         $user = auth('api')->user();
-        $userPost = User::find($user->id)->posts;
-        return response()->json([
-            'data' => $user,
-            'posts' => $userPost,
-        ], 200);
+        return responder()->success($user, UserTransformer::class)->with('posts')->respond();
     }
 
     public function login(LoginRequest $request)

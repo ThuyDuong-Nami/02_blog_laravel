@@ -12,7 +12,9 @@ class UserTransformer extends Transformer
      *
      * @var string[]
      */
-    protected $relations = [];
+    protected $relations = [
+        'posts' => PostTransformer::class,
+    ];
 
     /**
      * List of autoloaded default relations.

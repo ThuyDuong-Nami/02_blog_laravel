@@ -12,7 +12,9 @@ class PostTransformer extends Transformer
      *
      * @var string[]
      */
-    protected $relations = [];
+    protected $relations = [
+        'user' => UserTransformer::class,
+    ];
 
     /**
      * List of autoloaded default relations.
@@ -33,7 +35,6 @@ class PostTransformer extends Transformer
             'id' => (int) $post->id,
             'name' => (string) $post->name,
             'content' => (string) $post->content,
-            'user' => transformation($post->user)->transform(),
         ];
     }
 }
