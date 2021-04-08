@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Transformers\PostTransformer;
-use Flugg\Responder\Contracts\Transformable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use League\Flysystem\Config;
 
-class Post extends Model implements Transformable
+class Post extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -31,10 +28,5 @@ class Post extends Model implements Transformable
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function transformer()
-    {
-        return PostTransformer::class;
     }
 }

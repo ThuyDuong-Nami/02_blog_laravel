@@ -21,7 +21,7 @@ class AuthController extends Controller
     public function index()
     {
         $user = auth('api')->user();
-        return responder()->success($user, UserTransformer::class)->with('posts')->respond();
+        return responder()->success($user, UserTransformer::class)->respond();
     }
 
     public function login(LoginRequest $request)

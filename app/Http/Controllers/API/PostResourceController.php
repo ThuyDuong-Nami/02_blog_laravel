@@ -24,7 +24,7 @@ class PostResourceController extends Controller
     {
         $perPage = $request->input('perPage');
         $posts = Post::paginate($perPage);
-        return responder()->success($posts, PostTransformer::class)->with('user')->respond();
+        return responder()->success($posts, PostTransformer::class)->respond();
     }
 
     /**
@@ -50,7 +50,7 @@ class PostResourceController extends Controller
      */
     public function show(Post $post)
     {
-        return responder()->success($post, PostTransformer::class)->with('user')->respond();
+        return responder()->success($post, PostTransformer::class)->respond();
     }
 
     /**
