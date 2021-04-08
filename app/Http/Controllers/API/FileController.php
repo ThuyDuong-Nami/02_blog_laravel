@@ -29,11 +29,12 @@ class FileController extends Controller
         $filepath = 'storage/test.csv';
         if (file_exists($filepath)){
             $file = @fopen($filepath, 'r');
-            while (($dataFile = fgets($file)) !== false){
-                return response()->json([
-                    $dataFile
-                ], 200);
+            while (($dataFile = fgetcsv($file)) !== false){
+                $csv[] = $dataFile;
             }
+            return response()->json([
+                $csv,
+            ], 200);
             fclose($file);
         }else{
             return response()->json([
@@ -41,5 +42,4 @@ class FileController extends Controller
             ], 422);
         }
     }
-
 }
