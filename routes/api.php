@@ -33,3 +33,4 @@ Route::group(['middleware' => 'api'], function (){
 Route::apiResource('post', API\PostResourceController::class);
 Route::get('file', [API\FileController::class, 'readFile']);
 Route::get('file/csv', [API\FileController::class, 'readCSV']);
+Route::get('file/formcsv', [API\FileController::class, 'formCSV']);
