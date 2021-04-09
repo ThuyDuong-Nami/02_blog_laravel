@@ -11,6 +11,9 @@ class FileService implements FileContract
 
     public function read(string $fileName): string
     {
-        // TODO: Implement read() method.
+        $file = @fopen($fileName, 'r');
+        $dataFile = fread($file, filesize($fileName));
+        return $dataFile;
+        fclose($file);
     }
 }
