@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
 class PostResourceController extends Controller
@@ -22,8 +23,8 @@ class PostResourceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage');
-        $posts = Post::with('user')->paginate($perPage);
-        return response()->json($posts, 200);
+        $posts = Post::paginate($perPage);
+        return responder()->success($posts, PostTransformer::class)->respond();
     }
 
     /**
@@ -49,11 +50,7 @@ class PostResourceController extends Controller
      */
     public function show(Post $post)
     {
-        $postUser = Post::find($post->id)->user;
-        return response()->json([
-            'data' => $post,
-            'user' => $postUser,
-        ], 200);
+        return responder()->success($post, PostTransformer::class)->respond();
     }
 
     /**
