@@ -8,7 +8,6 @@ use App\Contracts\FileContract;
 
 class FileService implements FileContract
 {
-
     public function read(string $fileName): string
     {
         $file = @fopen($fileName, 'r');

@@ -20,7 +20,7 @@ use App\Http\Controllers\API;
 //});
 
 Route::group(['middleware' => 'api'], function (){
-    Route::get('/', [API\AuthController::class, 'index']);
+    Route::get('/me', [API\AuthController::class, 'index']);
     Route::post('/login', [API\AuthController::class, 'login']);
     Route::get('/logout', [API\AuthController::class, 'logout']);
     Route::post('/register', [API\AuthController::class, 'register']);
@@ -32,3 +32,4 @@ Route::group(['middleware' => 'api'], function (){
 
 Route::apiResource('post', API\PostResourceController::class);
 Route::post('file/csv', [API\FileController::class, 'readCSV']);
+Route::post('file/import', [API\FileController::class, 'import']);

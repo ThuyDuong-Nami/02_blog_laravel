@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Contracts\CsvFileContract;
+use App\Models\User;
 
 class CsvFileService extends FileService implements CsvFileContract
 {
@@ -34,5 +35,14 @@ class CsvFileService extends FileService implements CsvFileContract
         $csv = strtolower($csv);
         $csv = trim(str_replace(" ","", $csv));
         return $csv;
+    }
+
+    public function importData(string $fileName)
+    {
+        $arr = $this->parse($fileName);
+        foreach ($arr as $item){
+            $user[] = User::create($item);
+        }
+        return $user;
     }
 }
