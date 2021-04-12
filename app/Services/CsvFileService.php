@@ -40,9 +40,20 @@ class CsvFileService extends FileService implements CsvFileContract
     public function importData(string $fileName)
     {
         $arr = $this->parse($fileName);
+        $update = 0;
+        $insert = 0;
         foreach ($arr as $item){
-            $user[] = User::create($item);
+            if ($user = User::where('username', $item['username'])->first()){
+                $user->update($item);
+                $update++;
+            }else{
+                $user[] = User::create($item);
+                $insert++;
+            }
         }
-        return $user;
+        return array(
+            'Import Data' => $insert,
+            'Update Data' => $update
+        );
     }
 }

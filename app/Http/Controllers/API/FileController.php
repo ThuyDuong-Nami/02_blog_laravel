@@ -22,8 +22,8 @@ class FileController extends Controller
         $file = new CsvFileService();
         $data = $file->importData($filePath);
         return response()->json([
-            'message' => 'Import Data Success!',
-            'data' => $data,
+            'message' => 'Import or Update Data Success!',
+            'records' => $data,
         ], 200);
     }
 }
