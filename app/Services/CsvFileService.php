@@ -13,9 +13,7 @@ class CsvFileService extends FileService implements CsvFileContract
     public function parse(string $fileName): array
     {
         $csv = $this->read($fileName);
-        $lines = explode(PHP_EOL, $csv);
-        $key = str_getcsv($this->mappingColumn($lines[0]));
-        unset($lines[0]);
+        $lines = explode("\n", $csv);
         $array = array();
         foreach ($lines as $line) {
             if ($line == ""){
@@ -23,9 +21,6 @@ class CsvFileService extends FileService implements CsvFileContract
             }else{
                 $array[] = str_getcsv($line);
             }
-        }
-        for ($i = 0 ; $i < count($array); $i++){
-            $array[$i] = array_combine($key, $array[$i]);
         }
         return $array;
     }
@@ -37,23 +32,14 @@ class CsvFileService extends FileService implements CsvFileContract
         return $csv;
     }
 
-    public function importData(string $fileName)
+    public function mappingHeader(string $fileName): array
     {
-        $arr = $this->parse($fileName);
-        $update = 0;
-        $insert = 0;
-        foreach ($arr as $item){
-            if ($user = User::where('username', $item['username'])->first()){
-                $user->update($item);
-                $update++;
-            }else{
-                $user[] = User::create($item);
-                $insert++;
-            }
+        $array = $this->parse($fileName);
+        $key = str_getcsv($this->mappingColumn(implode(',', $array[0])));
+        unset($array[0]);
+        for ($i = 1 ; $i <= count($array); $i++){
+            $array[$i] = array_combine($key, $array[$i]);
         }
-        return array(
-            'Import Data' => $insert,
-            'Update Data' => $update
-        );
+        return array_values($array);
     }
 }

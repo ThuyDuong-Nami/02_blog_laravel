@@ -12,7 +12,14 @@ class FileService implements FileContract
     {
         $file = @fopen($fileName, 'r');
         $dataFile = fread($file, filesize($fileName));
+        fclose($file);
         return $dataFile;
+    }
+
+    public function write(string $fileName)
+    {
+        $file = @fopen($fileName, 'w');
+        return $file;
         fclose($file);
     }
 }
