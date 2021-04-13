@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Services\CsvFileService;
 use App\Services\DBService;
-use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
