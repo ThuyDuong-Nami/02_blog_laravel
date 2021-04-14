@@ -25,19 +25,12 @@ class CsvFileService extends FileService implements CsvFileContract
         return $array;
     }
 
-    public function mappingColumn(array $mappingKeys): array
-    {
-        $format = ['username', 'email', 'password'];
-        return array_replace($mappingKeys, $format);
-    }
-
     public function mappingHeader(string $fileName, array $mappingKeys): array
     {
         $array = $this->parse($fileName);
-        $key = $this->mappingColumn($mappingKeys);
         unset($array[0]);
         for ($i = 1 ; $i <= count($array); $i++){
-            $array[$i] = array_combine($key, $array[$i]);
+            $array[$i] = array_combine($mappingKeys, $array[$i]);
         }
         return array_values($array);
     }

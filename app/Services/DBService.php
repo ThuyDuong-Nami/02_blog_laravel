@@ -10,7 +10,11 @@ class DBService extends CsvFileService implements DBContract
 {
     public function importData(string $fileName)
     {
-        $arr = $this->mappingHeader($fileName);
+        $arr = $this->mappingHeader($fileName, [
+            'User Name' => 'username',
+            'Email' => 'email',
+            'Password' => 'password'
+        ]);
         $update = 0;
         $insert = 0;
         foreach ($arr as $item){
