@@ -20,6 +20,5 @@ class FileService implements FileContract
     {
         $file = @fopen($fileName, 'w');
         return $file;
-        fclose($file);
     }
 }

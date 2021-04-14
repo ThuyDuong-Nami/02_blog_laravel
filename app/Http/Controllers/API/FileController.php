@@ -21,7 +21,10 @@ class FileController extends Controller
     {
         $filePath = $request->file('filePath');
         $file = new CsvFileService();
-        $data = $file->mappingHeader($filePath);
+        for ($i = 1; $i <= 3; $i++){
+            $col[$i] = $request->input('col'.$i);
+        }
+        $data = $file->mappingHeader($filePath, array_values($col));
         return response()->json($data, 200);
     }
 
