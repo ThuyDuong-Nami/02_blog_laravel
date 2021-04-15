@@ -18,7 +18,9 @@ class DBService extends CsvFileService implements DBContract
         $update = 0;
         $insert = 0;
         foreach ($arr as $item){
-            if ($user = User::where('username', $item['username'])->first()){
+            if ($user = User::where('username', $item['username'])
+                ->orWhere('email', $item['email'])->first())
+            {
                 $user->update($item);
                 $update++;
             }else{

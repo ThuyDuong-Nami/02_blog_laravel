@@ -24,7 +24,7 @@ class FileController extends Controller
         $col = [
             'User Name' => 'username',
             'Email' => 'email',
-            'Password' => 'password'
+            'Password' => 'password',
         ];
         $data = $file->mappingHeader($filePath, $col);
         return response()->json($data, 200);

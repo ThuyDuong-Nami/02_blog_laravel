@@ -25,12 +25,18 @@ class CsvFileService extends FileService implements CsvFileContract
         return $array;
     }
 
-    public function mappingHeader(string $fileName, array $mappingKeys): array
+    public function mappingHeader(string $fileName, array $mappingKeys)
     {
         $array = $this->parse($fileName);
+        $key_arr = $array[0];
+        for ($i = 0; $i < count($key_arr); $i++){
+            if (in_array($key_arr[$i], array_keys($mappingKeys))){
+                $key_arr[$i] = $mappingKeys[$key_arr[$i]];
+            }
+        }
         unset($array[0]);
         for ($i = 1 ; $i <= count($array); $i++){
-            $array[$i] = array_combine($mappingKeys, $array[$i]);
+            $array[$i] = array_combine($key_arr, $array[$i]);
         }
         return array_values($array);
     }
