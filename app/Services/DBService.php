@@ -39,11 +39,17 @@ class DBService extends CsvFileService implements DBContract
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=file.csv');
         $csv = $this->write($fileName);
-        fputcsv($csv, array('id', 'username', 'email'));
+        $col = [
+            'id' => 'Id',
+            'username' => 'User Name',
+            'email' => 'Email',
+        ];
+        $key = ['id', 'username', 'email'];
+        fputcsv($csv, $this->mappingColumn($key, $col));
         if ($limit == 0){
             $limit = count(User::all());
         }
-        $user = User::select('id', 'username', 'email')->limit($limit)->get();
+        $user = User::select($key)->limit($limit)->get();
         foreach ($user as $item){
             fputcsv($csv, $item->toArray());
         }
