@@ -3,9 +3,7 @@
 
 namespace App\Services;
 
-
 use App\Contracts\CsvFileContract;
-use App\Models\User;
 
 class CsvFileService extends FileService implements CsvFileContract
 {
@@ -25,25 +23,25 @@ class CsvFileService extends FileService implements CsvFileContract
         return $array;
     }
 
-    public function mappingHeader(string $fileName, array $mappingKeys)
+    public function mappingHeader(string $fileName, array $mappingKeys): array
     {
         $array = $this->parse($fileName);
-        $key_arr = $array[0];
-        $key_arr = $this->mappingColumn($key_arr, $mappingKeys);
+        $keyArr = $array[0];
+        $keyArr = $this->mappingColumn($keyArr, $mappingKeys);
         unset($array[0]);
         for ($i = 1 ; $i <= count($array); $i++){
-            $array[$i] = array_combine($key_arr, $array[$i]);
+            $array[$i] = array_combine($keyArr, $array[$i]);
         }
         return array_values($array);
     }
 
-    public function mappingColumn(array $key_arr, array $mappingKeys)
+    public function mappingColumn(array $keyArr, array $mappingKeys): array
     {
-        for ($i = 0; $i < count($key_arr); $i++){
-            if (in_array($key_arr[$i], array_keys($mappingKeys))){
-                $key_arr[$i] = $mappingKeys[$key_arr[$i]];
+        for ($i = 0; $i < count($keyArr); $i++){
+            if (in_array($keyArr[$i], array_keys($mappingKeys))){
+                $keyArr[$i] = $mappingKeys[$keyArr[$i]];
             }
         }
-        return $key_arr;
+        return $keyArr;
     }
 }
