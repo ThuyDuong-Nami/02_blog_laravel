@@ -46,11 +46,11 @@ class DBService extends CsvFileService implements DBContract
         ];
         $key = ['id', 'username', 'email'];
         fputcsv($csv, $this->mappingColumn($key, $col));
-        if ($limit == 0){
-            $user = User::select($key)->get();
-        }else{
-            $user = User::select($key)->limit($limit)->get();
+        $userQuery = User::select($key);
+        if (!empty($limit)) {
+            $userQuery->limit($limit);
         }
+        $user = $userQuery->get();
         foreach ($user as $item){
             fputcsv($csv, $item->toArray());
         }
