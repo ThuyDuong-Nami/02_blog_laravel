@@ -34,3 +34,6 @@ Route::post('file/csv', [API\FileController::class, 'readCSV']);
 Route::post('file/mapping', [API\FileController::class, 'mapping']);
 Route::post('file/import', [API\FileController::class, 'import']);
 Route::post('file/export', [API\FileController::class, 'export']);
+
+Route::post('file/importExcel', [API\ExcelController::class, 'import']);
+Route::get('file/exportExcel', [API\ExcelController::class, 'export']);
