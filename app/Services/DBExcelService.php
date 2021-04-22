@@ -57,8 +57,8 @@ class DBExcelService extends ExcelService implements DBContract
 
         $char = chr(65);
         $row = 1;
-        for ($i = 1; $i <= count($title); $i++){
-            $sheet->setCellValue($char.$row, $title[$i-1]);
+        for ($i = 0; $i < count($title); $i++){
+            $sheet->setCellValue($char.$row, $title[$i]);
             $char++;
         }
 
