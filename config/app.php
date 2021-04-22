@@ -177,8 +177,6 @@ return [
 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Flugg\Responder\ResponderServiceProvider::class,
-
-        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -237,8 +235,6 @@ return [
 
         'Responder' => Flugg\Responder\Facades\Responder::class,
         'Transformation' => Flugg\Responder\Facades\Transformation::class,
-
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

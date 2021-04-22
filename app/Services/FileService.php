@@ -28,9 +28,4 @@ class FileService implements FileContract
         $excel = IOFactory::load($fileName);
         return $excel->getActiveSheet()->toArray();
     }
-
-    public function writeExcel(string $fileName)
-    {
-        // TODO: Implement writeExcel() method.
-    }
 }

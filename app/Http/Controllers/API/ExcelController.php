@@ -56,4 +56,15 @@ class ExcelController extends Controller
            'records' => $data,
         ], 200);
     }
+
+    public function exportExcel()
+    {
+        $fileName = request()->input('fileName');
+        $limit = request()->input('limit');
+        $file = new DBExcelService();
+        if (!$limit){
+            $limit = 0;
+        }
+        $file->exportData($fileName, $limit);
+    }
 }
