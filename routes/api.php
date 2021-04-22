@@ -40,3 +40,4 @@ Route::get('file/exportExcel', [API\ExcelController::class, 'export']);
 
 Route::post('file/readExcel', [API\ExcelController::class, 'readExcel']);
 Route::post('file/mappingExcel', [API\ExcelController::class, 'mapping']);
+Route::post('file/import-Excel', [API\ExcelController::class, 'importExcel']);
