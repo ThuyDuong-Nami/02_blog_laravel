@@ -10,4 +10,7 @@ interface FileContract
     public function write(string $fileName);
 
     public function readActiveSheet(string $fileName): array;
+
+    public function mappingHeader(array $array, array $mappingKeys): array;
+    public function mappingColumn(array $keyArr, array $mappingKeys): array;
 }

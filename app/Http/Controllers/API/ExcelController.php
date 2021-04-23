@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Imports\UsersImport;
-use App\Services\DBExcelService;
 use App\Services\ExcelService;
 
 class ExcelController extends Controller
@@ -42,29 +41,8 @@ class ExcelController extends Controller
             'Email' => 'email',
             'Password' => 'password',
         ];
-        $data = $file->mappingHeader($fileName, $col);
+        $array = $file->parse($fileName);
+        $data = $file->mappingHeader($array, $col);
         return response()->json($data, 200);
-    }
-
-    public function importExcel()
-    {
-        $fileName = request()->file('fileName');
-        $file = new DBExcelService();
-        $data = $file->importData($fileName);
-        return response()->json([
-           'message' => 'Import and Update excel file success!',
-           'records' => $data,
-        ], 200);
-    }
-
-    public function exportExcel()
-    {
-        $fileName = request()->input('fileName');
-        $limit = request()->input('limit');
-        $file = new DBExcelService();
-        if (!$limit){
-            $limit = 0;
-        }
-        $file->exportData($fileName, $limit);
     }
 }

@@ -15,7 +15,8 @@ class DBExcelService extends ExcelService implements DBContract
 
     public function importData(string $fileName): array
     {
-        $arr = $this->mappingHeader($fileName, [
+        $array = $this->parse($fileName);
+        $arr = $this->mappingHeader($array, [
             'UserName' => 'username',
             'Email' => 'email',
             'Password' => 'password'

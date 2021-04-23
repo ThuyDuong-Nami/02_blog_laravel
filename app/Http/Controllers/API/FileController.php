@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Services\CsvFileService;
+use App\Services\DBExcelService;
 use App\Services\DBService;
 use Illuminate\Http\Request;
 
@@ -26,32 +27,56 @@ class FileController extends Controller
             'Email' => 'email',
             'Password' => 'password',
         ];
-        $data = $file->mappingHeader($filePath, $col);
+        $array = $file->parse($filePath);
+        $data = $file->mappingHeader($array, $col);
         return response()->json($data, 200);
     }
 
     public function import(Request $request)
     {
         $filePath = $request->file('filePath');
-        $file = new DBService();
-        $data = $file->importData($filePath);
-        return response()->json([
-            'message' => 'Import or Update Data Success!',
-            'records' => $data,
-        ], 200);
+        $option = $request->input('option');
+        switch ($option){
+            case 'csv' :
+                $file = new DBService();
+                $data = $file->importData($filePath);
+                return response()->json([
+                    'message' => 'Import or Update Data Success!',
+                    'records' => $data,
+                ], 200);
+            case 'xlsx' :
+                $file = new DBExcelService();
+                $data = $file->importData($filePath);
+                return response()->json([
+                    'message' => 'Import or Update Data Success!',
+                    'records' => $data,
+                ], 200);
+            default :
+                return response()->json([
+                    'error' => 'Please choose the correct format!',
+                ], 422);
+        }
     }
 
     public function export(Request $request)
     {
         $filePath = $request->input('filePath');
+        $option = $request->input('option');
         $limit = $request->input('limit');
-        $file = new DBService();
         if (!$limit){
             $limit = 0;
         }
-        $file->exportData($filePath,$limit);
-        return response()->json([
-            'message' => 'Export Data Success!'
-        ], 200);
+        switch ($option){
+            case 'csv' :
+                $file = new DBService();
+                $file->exportData($filePath,$limit);
+            case 'xlsx' :
+                $file = new DBExcelService();
+                $file->exportData($filePath, $limit);
+            default :
+                return response()->json([
+                    'error' => 'Please choose the correct format!',
+                ], 422);
+        }
     }
 }

@@ -10,7 +10,8 @@ class DBService extends CsvFileService implements DBContract
 {
     public function importData(string $fileName): array
     {
-        $arr = $this->mappingHeader($fileName, [
+        $array = $this->parse($fileName);
+        $arr = $this->mappingHeader($array, [
             'User Name' => 'username',
             'Email' => 'email',
             'Password' => 'password'
@@ -37,7 +38,7 @@ class DBService extends CsvFileService implements DBContract
     public function exportData(string $fileName, int $limit)
     {
         header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=file.csv');
+        header('Content-Disposition: attachment; filename='.$fileName);
         $csv = $this->write($fileName);
         $col = [
             'id' => 'Id',
