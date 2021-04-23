@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API;
 
@@ -31,3 +30,10 @@ Route::group(['middleware' => 'api'], function (){
 });
 
 Route::apiResource('post', API\PostResourceController::class);
+Route::post('file/csv', [API\FileController::class, 'readCSV']);
+Route::post('file/mapping', [API\FileController::class, 'mapping']);
+Route::post('file/import', [API\FileController::class, 'import']);
+Route::post('file/export', [API\FileController::class, 'export']);
+
+Route::post('file/importExcel', [API\ExcelController::class, 'import']);
+Route::get('file/exportExcel', [API\ExcelController::class, 'export']);
