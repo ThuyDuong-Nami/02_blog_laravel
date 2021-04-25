@@ -19,7 +19,7 @@ class FileService implements FileContract
 
     public function write(string $fileName)
     {
-        return @fopen("php://output", 'w');
+        return @fopen('php://output', 'w');
     }
 
     public function readActiveSheet(string $fileName): array

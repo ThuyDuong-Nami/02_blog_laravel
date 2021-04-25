@@ -32,11 +32,11 @@ class FileController extends Controller
         return response()->json($data, 200);
     }
 
+
     public function import(Request $request)
     {
         $filePath = $request->file('filePath');
-        $option = $request->input('option');
-        switch ($option){
+        switch ($filePath->getClientOriginalExtension()){
             case 'csv' :
                 $file = new DBService();
                 $data = $file->importData($filePath);
