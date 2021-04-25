@@ -55,5 +55,6 @@ class DBService extends CsvFileService implements DBContract
         foreach ($user as $item){
             fputcsv($csv, $item->toArray());
         }
+        fclose($csv);
     }
 }

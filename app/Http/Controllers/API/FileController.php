@@ -70,9 +70,11 @@ class FileController extends Controller
             case 'csv' :
                 $file = new DBService();
                 $file->exportData($filePath,$limit);
+                break;
             case 'xlsx' :
                 $file = new DBExcelService();
                 $file->exportData($filePath, $limit);
+                break;
             default :
                 return response()->json([
                     'error' => 'Please choose the correct format!',
