@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\Contracts\FileContract;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class FileService implements FileContract
 {
@@ -20,12 +19,6 @@ class FileService implements FileContract
     public function write(string $fileName)
     {
         return @fopen('php://output', 'w');
-    }
-
-    public function readActiveSheet(string $fileName): array
-    {
-        $excel = IOFactory::load($fileName);
-        return $excel->getActiveSheet()->toArray();
     }
 
     public function mappingHeader(array $array, array $mappingKeys): array
