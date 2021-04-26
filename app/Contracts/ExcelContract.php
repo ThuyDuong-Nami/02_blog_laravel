@@ -4,7 +4,8 @@
 namespace App\Contracts;
 
 
-interface CsvFileContract
+interface ExcelContract
 {
+    public function readActiveSheet(string $fileName): array;
     public function parse(string $fileName): array;
 }

@@ -5,14 +5,19 @@ namespace App\Services;
 
 use App\Contracts\DBContract;
 use App\Models\User;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class DBService extends CsvFileService implements DBContract
+class DBExcelService extends ExcelService implements DBContract
 {
+
     public function importData(string $fileName): array
     {
         $array = $this->parse($fileName);
         $arr = $this->mappingHeader($array, [
-            'User Name' => 'username',
+            'UserName' => 'username',
             'Email' => 'email',
             'Password' => 'password'
         ]);
@@ -37,24 +42,41 @@ class DBService extends CsvFileService implements DBContract
 
     public function exportData(string $fileName, int $limit)
     {
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename='.$fileName);
-        $csv = $this->write($fileName);
+        header('Content-Type: application/vnd-ms-excel; charset=utf-8');
+        header('Content-Disposition: attachment;filename='.$fileName);
         $col = [
             'id' => 'Id',
             'username' => 'User Name',
             'email' => 'Email',
         ];
+
         $key = ['id', 'username', 'email'];
-        fputcsv($csv, $this->mappingColumn($key, $col));
+        $title = $this->mappingColumn($key, $col);
+
+        $spreadSheet = new Spreadsheet();
+        $sheet = $spreadSheet->getActiveSheet();
+
+        $char = chr(65);
+        $row = 1;
+        for ($i = 0; $i < count($title); $i++){
+            $sheet->setCellValue($char.$row, $title[$i]);
+            $char++;
+        }
+
         $userQuery = User::select($key);
         if (!empty($limit)) {
             $userQuery = $userQuery->limit($limit);
         }
         $user = $userQuery->get();
-        foreach ($user as $item){
-            fputcsv($csv, $item->toArray());
+        $row = 2;
+        foreach ($user->toArray() as $item){
+            $sheet->setCellValue('A'.$row, $item['id']);
+            $sheet->setCellValue('B'.$row, $item['username']);
+            $sheet->setCellValue('C'.$row, $item['email']);
+            $row++;
         }
-        fclose($csv);
+
+        $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
+        $writer->save('php://output');
     }
 }
