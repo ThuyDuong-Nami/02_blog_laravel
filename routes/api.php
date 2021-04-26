@@ -37,3 +37,5 @@ Route::post('file/export', [API\FileController::class, 'export']);
 
 Route::post('file/importExcel', [API\ExcelController::class, 'import']);
 Route::get('file/exportExcel', [API\ExcelController::class, 'export']);
+
+Route::post('sendMail', [API\MailController::class, 'sendMail']);
