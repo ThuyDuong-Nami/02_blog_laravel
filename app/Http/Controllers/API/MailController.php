@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Mail\SendMail;
 use App\Models\User;
+use App\Notifications\UserNotification;
+use Database\Factories\UserFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,6 +24,17 @@ class MailController extends Controller
         }
         return response()->json([
             'message' => 'SendMail Success!',
+        ], 200);
+    }
+
+    public function notification()
+    {
+        $users = User::all();
+        foreach ($users as $user){
+            $user->notify(new UserNotification());
+        }
+        return response()->json([
+            'message' => 'Send Notification Success!',
         ], 200);
     }
 }
