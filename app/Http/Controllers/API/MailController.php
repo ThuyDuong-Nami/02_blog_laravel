@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendMailJob;
 use App\Mail\SendMail;
 use App\Models\User;
 use App\Notifications\UserNotification;
@@ -35,6 +36,22 @@ class MailController extends Controller
         }
         return response()->json([
             'message' => 'Send Notification Success!',
+        ], 200);
+    }
+
+    public function job()
+    {
+        $users = User::all();
+        foreach ($users as $user){
+            $data = [
+                'username' => $user->username,
+                'email' => $user->email,
+            ];
+            $testMail = new SendMail($data);
+            $this->dispatch(new SendMailJob($testMail));
+        }
+        return response()->json([
+            'message' => 'Jobs Success!',
         ], 200);
     }
 }

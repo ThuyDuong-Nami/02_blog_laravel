@@ -28,7 +28,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Hello World')
-                ->markdown('mail');
+        return $this->to($this->data['email'])
+            ->subject('Hello World')
+            ->markdown('mail');
     }
 }
