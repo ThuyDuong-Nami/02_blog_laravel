@@ -5,32 +5,37 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Repositories\PostRepository;
+use App\Repositories\PostRepositoryInterface;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 
-class PostResourceController extends Controller
+class PostRepoController extends Controller
 {
-    public function __construct()
+    protected $postRepo;
+
+    public function __construct(PostRepository $postRepo)
     {
         $this->middleware('auth:api');
         $this->authorizeResource(Post::class);
+        $this->postRepo = $postRepo;
     }
     /**
      * Display a listing of the resource.
-     * @param  Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->input('perPage');
-        $posts = Post::paginate($perPage);
+        $perPage = request()->input('perPage');
+        $posts = $this->postRepo->paginate($perPage);
         return responder()->success($posts, PostTransformer::class)->respond();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\PostRequest $request
+     * @param  App\Http\Requests\PostRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(PostRequest $request)
@@ -38,14 +43,14 @@ class PostResourceController extends Controller
         $validatedData = $request->validated();
         $user = auth('api')->user();
         $postArr = array_merge($validatedData, ['user_id' => $user->id]);
-        $postAdd = Post::create($postArr);
-        return response()->json($postAdd, 200);
+        $postAdd = $this->postRepo->store($postArr);
+        return responder()->success($postAdd, PostTransformer::class)->respond();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Post $post
+     * @param  Post $post
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Post $post)
@@ -56,18 +61,15 @@ class PostResourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\PostRequest $request
+     * @param  App\Http\Requests\PostRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(PostRequest $request,Post $post)
     {
         $validatedData = $request->validated();
-        $post->update($validatedData);
-        return response()->json([
-            'data' => $post,
-            'message' => 'Update success!',
-        ], 200);
+        $post = $this->postRepo->update($post->id, $validatedData);
+        return responder()->success($post, PostTransformer::class)->respond();
     }
 
     /**
@@ -78,7 +80,7 @@ class PostResourceController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
+        $this->postRepo->destroy($post->id);
         return response()->json([
             'message' => 'Delete success!',
         ], 200);

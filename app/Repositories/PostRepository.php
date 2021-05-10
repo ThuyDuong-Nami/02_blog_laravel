@@ -3,8 +3,12 @@
 
 namespace App\Repositories;
 
+use App\Models\Post;
 
-class PostRepository
+class PostRepository extends BaseRepository
 {
-
+    public function getModel()
+    {
+        return Post::class;
+    }
 }

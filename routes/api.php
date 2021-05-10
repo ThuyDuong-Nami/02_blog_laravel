@@ -30,4 +30,4 @@ Route::group(['middleware' => 'api'], function (){
 //    Route::delete('/posts/delete/{id}', [API\PostController::class, 'destroy']);
 });
 
-Route::apiResource('post', API\PostResourceController::class);
+Route::apiResource('post', API\PostRepoController::class);
